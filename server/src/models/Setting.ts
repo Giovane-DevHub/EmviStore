@@ -22,6 +22,9 @@ export interface ISetting extends Document {
   paymentSecretKey?: string;
   paymentSandbox: boolean;
 
+  // Identidade Visual
+  primaryColor?: string;
+
   // Metas do negócio
   monthlySalesTarget: number;
   semesterSalesTarget: number;
@@ -47,6 +50,8 @@ const SettingSchema = new Schema<ISetting>(
     paymentPublicKey: { type: String, default: '' },
     paymentSecretKey: { type: String, default: '' },
     paymentSandbox: { type: Boolean, default: true },
+
+    primaryColor: { type: String, default: '#db2777' },
 
     monthlySalesTarget: { type: Number, default: 15000 },
     semesterSalesTarget: { type: Number, default: 80000 },

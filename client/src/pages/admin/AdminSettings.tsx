@@ -11,13 +11,18 @@ import {
   CheckCircle,
   Phone,
   Image,
+  Palette,
+  Sparkles,
 } from 'lucide-react';
 
 export const AdminSettings: React.FC = () => {
-  const { settings, reloadSettings } = useStore();
+  const { settings, reloadSettings, previewColor } = useStore();
   const { user, updateUser } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'store' | 'payment' | 'shipping' | 'admin'>('store');
+  const [activeTab, setActiveTab] = useState<'store' | 'theme' | 'payment' | 'shipping' | 'admin'>('store');
+
+  // Tema / Cores
+  const [primaryColor, setPrimaryColor] = useState(settings.primaryColor || '#db2777');
 
   // Loja
   const [storeName, setStoreName] = useState(settings.storeName || 'Emvi Store');
@@ -69,6 +74,9 @@ export const AdminSettings: React.FC = () => {
         setPaymentPublicKey(fullSettings.paymentPublicKey || '');
         setPaymentSecretKey(fullSettings.paymentSecretKey || '');
         setPaymentSandbox(fullSettings.paymentSandbox ?? true);
+        if (fullSettings.primaryColor) {
+          setPrimaryColor(fullSettings.primaryColor);
+        }
       } catch (err) {
         console.error('Erro ao buscar configurações completas:', err);
       }
@@ -83,7 +91,7 @@ export const AdminSettings: React.FC = () => {
     setSavedSuccess(false);
 
     try {
-      // Salva configurações da loja / pagamento / frete
+      // Salva configurações da loja / pagamento / frete / tema
       await api.updateSettings({
         storeName,
         storeSlogan,
@@ -99,7 +107,10 @@ export const AdminSettings: React.FC = () => {
         paymentPublicKey,
         paymentSecretKey,
         paymentSandbox,
+        primaryColor,
       });
+
+      await reloadSettings();
 
       // Se estiver na aba admin e alterou dados de acesso
       if (activeTab === 'admin') {
@@ -166,6 +177,18 @@ export const AdminSettings: React.FC = () => {
         >
           <Store className="w-4 h-4" />
           <span>Identidade da Loja</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('theme')}
+          className={`pb-3 border-b-2 transition-all flex items-center gap-2 ${
+            activeTab === 'theme'
+              ? 'border-pink-600 text-pink-700 font-bold'
+              : 'border-transparent hover:text-black'
+          }`}
+        >
+          <Palette className="w-4 h-4 text-pink-600" />
+          <span>Cores do Sistema (Tema)</span>
         </button>
 
         <button
@@ -294,6 +317,152 @@ export const AdminSettings: React.FC = () => {
                   Se você não tiver uma imagem, o sistema exibirá automaticamente a tipografia elegante de alta costura com o nome da loja.
                 </p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Aba 2: Identidade Visual & Cores do Sistema */}
+        {activeTab === 'theme' && (
+          <div className="space-y-6 text-xs">
+            <div className="border-b border-[#EAE3DE] pb-2 flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-sm text-[#2A2626] flex items-center gap-2">
+                  <Palette className="w-4 h-4 text-pink-600" />
+                  Personalização de Cores do Sistema
+                </h3>
+                <p className="text-[#7A706E] text-[11px] mt-0.5">
+                  Troque a cor de destaque (botões, detalhes rosa, badges, ícones e links) para a identidade da sua marca.
+                </p>
+              </div>
+            </div>
+
+            {/* Seletor Customizado Moderno */}
+            <div className="bg-[#FAF7F5] border border-[#EAE3DE] p-5 rounded-xl space-y-4">
+              <span className="font-bold text-gray-800 text-xs block">
+                Seletor de Cor Livre & Personalizada
+              </span>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="relative flex items-center gap-3">
+                  <div
+                    className="w-14 h-14 rounded-2xl border-2 border-white shadow-md flex items-center justify-center relative overflow-hidden transition-transform hover:scale-105"
+                    style={{ backgroundColor: primaryColor }}
+                  >
+                    <input
+                      type="color"
+                      value={primaryColor}
+                      onChange={(e) => {
+                        setPrimaryColor(e.target.value);
+                        previewColor(e.target.value);
+                      }}
+                      className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                      title="Clique para abrir a paleta de cores"
+                    />
+                    <Sparkles className="w-5 h-5 text-white/70 pointer-events-none drop-shadow-xs" />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-[#5C5552] font-semibold mb-1">
+                      Código Hexadecimal (HEX)
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={primaryColor}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setPrimaryColor(val);
+                          if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+                            previewColor(val);
+                          }
+                        }}
+                        placeholder="#DB2777"
+                        className="w-32 bg-white border border-[#D8CECA] px-3 py-2 rounded-lg font-mono text-xs uppercase font-bold focus:outline-none focus:ring-1 focus:ring-pink-500"
+                      />
+                      <span className="text-[11px] text-gray-400">
+                        (Clique no quadrado ou digite o código)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Paletas Elegantes Prontas */}
+            <div className="space-y-3">
+              <label className="block text-gray-800 font-bold text-xs">
+                Ou escolha uma de nossas Paletas Sofisticadas Pré-configuradas:
+              </label>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { name: 'Rosa Framboesa (Original)', hex: '#db2777' },
+                  { name: 'Rosa Carmim Luxo', hex: '#e11d48' },
+                  { name: 'Vinho Marsala Nobre', hex: '#831843' },
+                  { name: 'Roxo Lavanda Imperial', hex: '#7c3aed' },
+                  { name: 'Dourado Champanhe / Âmbar', hex: '#b45309' },
+                  { name: 'Verde Esmeralda Alta Costura', hex: '#059669' },
+                  { name: 'Azul Royal Elegance', hex: '#2563eb' },
+                  { name: 'Preto & Grafite Minimalista', hex: '#18181b' },
+                ].map((item) => {
+                  const isSelected = primaryColor.toLowerCase() === item.hex.toLowerCase();
+                  return (
+                    <button
+                      key={item.hex}
+                      type="button"
+                      onClick={() => {
+                        setPrimaryColor(item.hex);
+                        previewColor(item.hex);
+                      }}
+                      className={`p-3 rounded-xl border text-left transition-all flex items-center gap-3 ${
+                        isSelected
+                          ? 'border-gray-900 bg-white shadow-md ring-2 ring-gray-900/10'
+                          : 'border-[#EAE3DE] bg-[#FAF7F5] hover:border-gray-400 hover:bg-white'
+                      }`}
+                    >
+                      <div
+                        className="w-6 h-6 rounded-full flex-shrink-0 shadow-xs border border-black/10"
+                        style={{ backgroundColor: item.hex }}
+                      />
+                      <div className="min-w-0">
+                        <p className="font-semibold text-gray-800 truncate text-[11px]">{item.name}</p>
+                        <p className="text-[10px] text-gray-400 font-mono uppercase">{item.hex}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Pré-visualização Ao Vivo */}
+            <div className="p-4 rounded-xl border border-gray-200 bg-white space-y-3">
+              <span className="text-xs font-bold text-gray-800 block">
+                Demonstração da sua cor nos elementos da loja:
+              </span>
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  className="px-4 py-2 text-white font-bold rounded-full text-xs shadow-xs"
+                  style={{ backgroundColor: primaryColor }}
+                >
+                  Botão Comprar Agora
+                </button>
+                <span
+                  className="px-2.5 py-1 rounded-full text-[11px] font-bold"
+                  style={{ backgroundColor: `${primaryColor}15`, color: primaryColor }}
+                >
+                  Badge Promocional 20% OFF
+                </span>
+                <span
+                  className="font-black text-sm"
+                  style={{ color: primaryColor }}
+                >
+                  R$ 289,90 no PIX
+                </span>
+              </div>
+              <p className="text-[11px] text-emerald-700 bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                ✨ <strong>Prévia instantânea ativada!</strong> Ao clicar no botão "Salvar Configurações" abaixo, essa cor será gravada e aplicada em toda a loja para todos os clientes.
+              </p>
             </div>
           </div>
         )}

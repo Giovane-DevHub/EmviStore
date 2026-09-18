@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useStore } from '../context/StoreContext';
+import { useCustomerAuth } from '../context/CustomerAuthContext';
 import { api } from '../services/api';
 import {
   ShieldCheck,
@@ -11,6 +12,7 @@ import {
   CheckCircle,
   ArrowLeft,
   Lock,
+  User,
 } from 'lucide-react';
 
 interface CheckoutPageProps {
@@ -20,21 +22,40 @@ interface CheckoutPageProps {
 export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
   const { cart, subtotal, discount, shippingFee, setShippingFee, total, clearCart } = useCart();
   const { settings } = useStore();
+  const { customer, isCustomerLoggedIn, openAuthModal } = useCustomerAuth();
 
   // Dados do Cliente
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [cpf, setCpf] = useState('');
+  const [name, setName] = useState(customer?.name || '');
+  const [email, setEmail] = useState(customer?.email || '');
+  const [phone, setPhone] = useState(customer?.phone || '');
+  const [cpf, setCpf] = useState(customer?.cpf || '');
 
   // Endereço de Entrega
-  const [cep, setCep] = useState('');
-  const [street, setStreet] = useState('');
-  const [number, setNumber] = useState('');
-  const [complement, setComplement] = useState('');
-  const [neighborhood, setNeighborhood] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
+  const [cep, setCep] = useState(customer?.address?.cep || '');
+  const [street, setStreet] = useState(customer?.address?.street || '');
+  const [number, setNumber] = useState(customer?.address?.number || '');
+  const [complement, setComplement] = useState(customer?.address?.complement || '');
+  const [neighborhood, setNeighborhood] = useState(customer?.address?.neighborhood || '');
+  const [city, setCity] = useState(customer?.address?.city || '');
+  const [state, setState] = useState(customer?.address?.state || '');
+
+  // Preenchimento automático quando o cliente logar
+  useEffect(() => {
+    if (customer) {
+      if (customer.name) setName(customer.name);
+      if (customer.email) setEmail(customer.email);
+      if (customer.phone) setPhone(customer.phone);
+      if (customer.cpf) setCpf(customer.cpf);
+      if (customer.address) {
+        if (customer.address.cep) setCep(customer.address.cep);
+        if (customer.address.street) setStreet(customer.address.street);
+        if (customer.address.number) setNumber(customer.address.number);
+        if (customer.address.neighborhood) setNeighborhood(customer.address.neighborhood);
+        if (customer.address.city) setCity(customer.address.city);
+        if (customer.address.state) setState(customer.address.state);
+      }
+    }
+  }, [customer]);
 
   // Método de Pagamento
   const [paymentMethod, setPaymentMethod] = useState<'credit_card' | 'pix' | 'boleto'>('credit_card');
@@ -210,6 +231,39 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
                 Endereço de Entrega & Identificação
               </h2>
             </div>
+
+            {/* Banner de Identificação do Cliente */}
+            {isCustomerLoggedIn ? (
+              <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-emerald-800">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                  <span>
+                    Comprando como <strong>{customer?.name}</strong> ({customer?.email})
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => openAuthModal('orders')}
+                  className="text-emerald-700 hover:underline font-bold text-[11px]"
+                >
+                  Ver meus pedidos
+                </button>
+              </div>
+            ) : (
+              <div className="bg-pink-50/70 border border-pink-200 p-3 rounded-xl flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-gray-700">
+                  <User className="w-4 h-4 text-pink-600 flex-shrink-0" />
+                  <span>Já possui cadastro na Emvi Store?</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => openAuthModal('login')}
+                  className="text-pink-600 font-bold hover:underline"
+                >
+                  Entrar na conta
+                </button>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
               <div className="sm:col-span-2">

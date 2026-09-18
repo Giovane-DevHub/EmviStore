@@ -147,8 +147,80 @@ export async function seedInitialData() {
         isActive: true,
         salesCount: 54,
       },
+      {
+        name: 'Saia Plissada Midi Acetinada',
+        description: 'Saia plissada comprimento midi em crepe acetinado nobre com elástico embutido no cós. Leveza, movimento e sofisticação em cada detalhe.',
+        sku: 'SAI-PLIS-007',
+        category: 'Saias',
+        costPrice: 75.0,
+        salePrice: 219.9,
+        stock: 30,
+        sizes: ['P', 'M', 'G'],
+        colors: [
+          { name: 'Champagne Perolado', hex: '#E6D7C3' },
+          { name: 'Rose Nude', hex: '#D2A59F' },
+          { name: 'Preto Clássico', hex: '#1C1C1C' },
+        ],
+        images: [
+          'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=800&q=80',
+          'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&q=80',
+        ],
+        isFeatured: true,
+        isActive: true,
+        salesCount: 41,
+      },
+      {
+        name: 'Vestido Slip Dress Seda Elegance',
+        description: 'Vestido slip dress com toque acetinado suave de seda e alças finas reguláveis. Oferta imperdível da coleção promocional.',
+        sku: 'SAL-SLIP-008',
+        category: 'Sale',
+        costPrice: 60.0,
+        salePrice: 139.9,
+        stock: 25,
+        sizes: ['P', 'M', 'G'],
+        colors: [
+          { name: 'Terracota Rose', hex: '#B86B64' },
+          { name: 'Preto', hex: '#1C1C1C' },
+        ],
+        images: [
+          'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80',
+          'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&q=80',
+        ],
+        isFeatured: true,
+        isActive: true,
+        salesCount: 89,
+      },
     ]);
     console.log('[Seed] Produtos luxuosos iniciais cadastrados com sucesso.');
+  }
+
+  // Garantir que CADA categoria existente no banco possua ao menos um produto ativo para teste
+  const allCategories = await Category.find();
+  for (const cat of allCategories) {
+    const hasProduct = await Product.findOne({ category: cat.name, isActive: true });
+    if (!hasProduct) {
+      await Product.create({
+        name: `Peça Exclusiva ${cat.name}`,
+        description: `Produto de alta sofisticação e acabamento impecável confeccionado para a categoria ${cat.name}.`,
+        sku: `PRD-${cat.slug.toUpperCase().slice(0, 4)}-001`,
+        category: cat.name,
+        costPrice: 70.0,
+        salePrice: 199.9,
+        stock: 20,
+        sizes: ['P', 'M', 'G'],
+        colors: [
+          { name: 'Rose Nude', hex: '#D2A59F' },
+          { name: 'Preto Clássico', hex: '#1C1C1C' },
+        ],
+        images: [
+          cat.image || 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80',
+        ],
+        isFeatured: true,
+        isActive: true,
+        salesCount: 15,
+      });
+      console.log(`[Seed] Produto criado para a categoria sem produto: ${cat.name}`);
+    }
   }
 
   // Clientes de exemplo

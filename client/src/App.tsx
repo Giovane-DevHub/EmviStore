@@ -5,10 +5,12 @@ import { api } from './services/api';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { StoreProvider, useStore } from './context/StoreContext';
+import { CustomerAuthProvider } from './context/CustomerAuthContext';
 
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { CartDrawer } from './components/CartDrawer';
+import { CustomerAuthModal } from './components/CustomerAuthModal';
 
 import { HomePage } from './pages/HomePage';
 import { CatalogPage } from './pages/CatalogPage';
@@ -173,6 +175,9 @@ const MainContent: React.FC = () => {
 
       {/* Gaveta de Sacola Lateral */}
       <CartDrawer onProceedToCheckout={() => navigateTo('checkout')} />
+
+      {/* Modal de Autenticação e Pedidos do Cliente */}
+      <CustomerAuthModal />
     </div>
   );
 };
@@ -181,9 +186,11 @@ export function App() {
   return (
     <StoreProvider>
       <AuthProvider>
-        <CartProvider>
-          <MainContent />
-        </CartProvider>
+        <CustomerAuthProvider>
+          <CartProvider>
+            <MainContent />
+          </CartProvider>
+        </CustomerAuthProvider>
       </AuthProvider>
     </StoreProvider>
   );

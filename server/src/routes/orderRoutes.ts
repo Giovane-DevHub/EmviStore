@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { Order } from '../models/Order.js';
 import { Product } from '../models/Product.js';
 import { Customer } from '../models/Customer.js';
-import { authMiddleware } from '../middlewares/auth.js';
+import { authMiddleware, AuthRequest } from '../middlewares/auth.js';
 
 const router = Router();
 
@@ -93,6 +93,22 @@ router.get('/', authMiddleware, async (req: Request, res: Response): Promise<voi
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Erro ao listar pedidos.' });
+  }
+});
+
+// Pedidos do cliente autenticado
+router.get('/my-orders', authMiddleware, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const customer = await Customer.findById(req.user?.id);
+    if (!customer) {
+      res.status(404).json({ message: 'Cliente não encontrado.' });
+      return;
+    }
+
+    const orders = await Order.find({ 'customer.email': customer.email }).sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao buscar pedidos do cliente.' });
   }
 });
 

@@ -22,6 +22,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
       paymentProvider: settings.paymentProvider,
       paymentPublicKey: settings.paymentPublicKey,
       paymentSandbox: settings.paymentSandbox,
+      primaryColor: settings.primaryColor || '#db2777',
     });
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar configurações da loja.' });

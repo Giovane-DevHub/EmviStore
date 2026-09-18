@@ -108,8 +108,18 @@ export interface IStoreSettings {
   paymentPublicKey?: string;
   paymentSecretKey?: string;
   paymentSandbox?: boolean;
+  primaryColor?: string;
   monthlySalesTarget?: number;
   semesterSalesTarget?: number;
+}
+
+export interface ICustomerUser {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  cpf?: string;
+  address?: IShippingAddress;
 }
 
 export interface IUser {

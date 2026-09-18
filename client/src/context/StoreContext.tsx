@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { IStoreSettings } from '../types';
 import { api } from '../services/api';
+import { applyThemeColor } from '../utils/theme';
 
 interface StoreContextType {
   settings: IStoreSettings;
   reloadSettings: () => Promise<void>;
+  previewColor: (hex: string) => void;
   isLoading: boolean;
 }
 
@@ -20,6 +22,7 @@ const defaultSettings: IStoreSettings = {
   freeShippingThreshold: 299.0,
   defaultShippingRate: 24.9,
   paymentProvider: 'mercadopago',
+  primaryColor: '#db2777',
 };
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -32,6 +35,9 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       const data = await api.getPublicSettings();
       setSettings(data);
+      if (data.primaryColor) {
+        applyThemeColor(data.primaryColor);
+      }
     } catch (error) {
       console.error('Erro ao carregar configurações:', error);
     } finally {
@@ -39,12 +45,22 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
+  const previewColor = (hex: string) => {
+    applyThemeColor(hex);
+  };
+
   useEffect(() => {
     reloadSettings();
   }, []);
 
+  useEffect(() => {
+    if (settings.primaryColor) {
+      applyThemeColor(settings.primaryColor);
+    }
+  }, [settings.primaryColor]);
+
   return (
-    <StoreContext.Provider value={{ settings, reloadSettings, isLoading }}>
+    <StoreContext.Provider value={{ settings, reloadSettings, previewColor, isLoading }}>
       {children}
     </StoreContext.Provider>
   );

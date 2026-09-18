@@ -3,6 +3,7 @@ import { ShoppingBag, Search, User, ShieldCheck, Heart, Sparkles, MessageCircle 
 import { useCart } from '../context/CartContext';
 import { useStore } from '../context/StoreContext';
 import { useAuth } from '../context/AuthContext';
+import { useCustomerAuth } from '../context/CustomerAuthContext';
 import { ICategory } from '../types';
 
 interface HeaderProps {
@@ -21,6 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   const { totalItemsCount, setIsCartOpen } = useCart();
   const { settings } = useStore();
   const { isAuthenticated, user } = useAuth();
+  const { customer, isCustomerLoggedIn, openAuthModal } = useCustomerAuth();
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -127,19 +129,42 @@ export const Header: React.FC<HeaderProps> = ({
               <Heart className="w-5 h-5" />
             </button>
 
-            {/* Painel Admin / Login */}
+            {/* Conta do Cliente (100% Autônomo) */}
+            {isCustomerLoggedIn ? (
+              <button
+                onClick={() => openAuthModal('orders')}
+                className="p-1.5 sm:px-3 sm:py-2 transition-all flex items-center gap-1.5 text-xs font-bold rounded-full text-pink-700 bg-pink-50 hover:bg-pink-100 border border-pink-200 shadow-xs"
+                title={`Minha Conta (${customer?.name})`}
+              >
+                <User className="w-4 h-4 text-pink-600" />
+                <span className="max-w-[85px] truncate hidden sm:inline">
+                  {customer?.name.split(' ')[0]}
+                </span>
+              </button>
+            ) : (
+              <button
+                onClick={() => openAuthModal('login')}
+                className="p-2 transition-all flex items-center gap-1 text-xs font-semibold text-gray-700 hover:text-pink-600 hover:bg-pink-50 rounded-full px-2 sm:px-3"
+                title="Entrar ou Cadastrar"
+              >
+                <User className="w-4 h-4 text-gray-600" />
+                <span className="hidden sm:inline">Entrar</span>
+              </button>
+            )}
+
+            {/* Painel Admin / Gestão da Loja */}
             <button
               onClick={() => onNavigate(isAuthenticated ? 'admin-dashboard' : 'admin-login')}
-              className={`p-2 transition-all flex items-center gap-1.5 text-xs font-semibold rounded-full ${
+              className={`p-2 transition-all flex items-center gap-1 text-xs font-semibold rounded-full ${
                 isAuthenticated
                   ? 'text-pink-700 bg-pink-100 px-3'
-                  : 'text-gray-600 hover:text-pink-600 hover:bg-pink-50'
+                  : 'text-gray-400 hover:text-pink-600 hover:bg-pink-50'
               }`}
-              title={isAuthenticated ? `Painel Administrativo (${user?.username})` : 'Acesso da Loja / Admin'}
+              title={isAuthenticated ? `Painel Administrativo (${user?.username})` : 'Acesso da Loja / Painel Admin'}
             >
-              <ShieldCheck className="w-5 h-5 text-pink-600" />
+              <ShieldCheck className="w-4 h-4" />
               <span className="hidden xl:inline">
-                {isAuthenticated ? 'Admin' : 'Painel'}
+                {isAuthenticated ? 'Admin' : 'Loja'}
               </span>
             </button>
 

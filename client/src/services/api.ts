@@ -13,8 +13,24 @@ export function setAuthToken(token: string | null) {
   }
 }
 
+export function getCustomerToken(): string | null {
+  return localStorage.getItem('emvi_customer_token');
+}
+
+export function setCustomerToken(token: string | null) {
+  if (token) {
+    localStorage.setItem('emvi_customer_token', token);
+  } else {
+    localStorage.removeItem('emvi_customer_token');
+  }
+}
+
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const token = getAuthToken();
+  // Se for rota de cliente, dá preferência ao token do cliente, senão usa token geral/admin
+  const token = endpoint.includes('/customer') || endpoint.includes('/my-orders')
+    ? (getCustomerToken() || getAuthToken())
+    : (getAuthToken() || getCustomerToken());
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(options.headers as Record<string, string>),
@@ -156,4 +172,23 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ cep, subtotal }),
     }),
+
+  // Cliente (100% Autônomo)
+  registerCustomer: (data: any) =>
+    request<{ message: string; token: string; customer: any }>('/auth/customer/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+  loginCustomer: (data: any) =>
+    request<{ token: string; customer: any }>('/auth/customer/login', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+  getCustomerMe: () => request<any>('/auth/customer/me'),
+  updateCustomerProfile: (data: any) =>
+    request<any>('/auth/customer/profile', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
+  getMyOrders: () => request<any[]>('/orders/my-orders'),
 };
