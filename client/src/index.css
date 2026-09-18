@@ -2,34 +2,48 @@
 
 @layer base {
   :root {
-    --color-emvi-primary: #8A5D65;
-    --color-emvi-dark: #222222;
-    --color-emvi-light: #FDFBF9;
-    --color-emvi-cream: #F5EFEB;
-    --color-emvi-rose-light: #F8F2F0;
-    --color-emvi-accent: #C49A88;
+    --color-brand-pink: #D81B60;
+    --color-brand-pink-dark: #AD1457;
+    --color-brand-pink-light: #FDF2F5;
+    --color-brand-pink-soft: #FCE4EC;
+    --color-brand-pix: #00A868;
+    --color-brand-pix-light: #E8F8F1;
+    --color-brand-dark: #1F2937;
+    --color-brand-gray: #6B7280;
+    --color-brand-light: #FFFFFF;
+    --color-brand-bg: #FAFAFA;
   }
 
   body {
-    background-color: var(--color-emvi-light);
-    color: var(--color-emvi-dark);
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-dark);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 }
 
-/* Scrollbar sutil e elegante */
+/* Scrollbar moderno e sutil */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1edea;
+  background: #f3f4f6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d8cbcd;
-  border-radius: 3px;
+  background: #f472b6;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a98f93;
+  background: #db2777;
 }
+
+@keyframes pulse-subtle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite ease-in-out;
+}
+

@@ -4,7 +4,7 @@
 Este documento foi criado para que qualquer pessoa consiga entender como a loja
 funciona, quais são as telas disponíveis, como usar o painel e quais plugins e
 versões estão instalados.
-
+site para usar de inspiração: https://www.empoderadamodafeminina.com.br/
 --------------------------------------------------------------------------------
 1. INFORMAÇÕES BÁSICAS DO SISTEMA
 --------------------------------------------------------------------------------

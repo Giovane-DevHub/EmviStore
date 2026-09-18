@@ -117,7 +117,7 @@ const MainContent: React.FC = () => {
 
   // Área da Loja Online do Cliente
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F5]">
+    <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-pink-100 selection:text-pink-800">
       <Header
         categories={activeCategories}
         onNavigate={navigateTo}
@@ -127,8 +127,9 @@ const MainContent: React.FC = () => {
 
       <main className="flex-1">
         {loading ? (
-          <div className="flex items-center justify-center py-28 text-xs text-[#7A706E]">
-            Carregando a coleção {settings.storeName}...
+          <div className="flex flex-col items-center justify-center py-36 gap-3 text-sm text-gray-500">
+            <div className="w-10 h-10 border-4 border-pink-200 border-t-pink-600 rounded-full animate-spin" />
+            <p className="font-medium text-gray-700 animate-pulse">Preparando as novidades da {settings.storeName}...</p>
           </div>
         ) : (
           <>

@@ -142,111 +142,114 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
   if (completedOrder) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center space-y-6">
-        <div className="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto shadow-xs">
-          <CheckCircle className="w-10 h-10" />
+        <div className="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-sm ring-8 ring-emerald-50/50">
+          <CheckCircle className="w-12 h-12" />
         </div>
         <div>
-          <span className="text-[11px] uppercase tracking-widest text-[#8A5D65] font-semibold">
-            Compra realizada com sucesso!
+          <span className="inline-block px-3 py-1 bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider rounded-full mb-2">
+            Compra realizada com sucesso! 🎉
           </span>
-          <h1 className="font-serif text-3xl font-light text-[#2A2626] mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
             Obrigada pelo seu pedido, {completedOrder.customer.name}!
           </h1>
-          <p className="text-sm text-[#7A706E] mt-2">
-            Número do Pedido: <strong className="text-[#2A2626]">{completedOrder.orderNumber}</strong>
+          <p className="text-sm text-gray-500 mt-2">
+            Número do Pedido: <strong className="text-gray-900 font-mono font-bold">#{completedOrder.orderNumber}</strong>
           </p>
         </div>
 
-        <div className="bg-[#FAF7F5] border border-[#EAE3DE] p-6 rounded-xs text-left text-xs space-y-3">
-          <p className="text-[#5C5552]">
-            Enviamos a confirmação detalhada para o e-mail: <strong>{completedOrder.customer.email}</strong>.
+        <div className="bg-white border border-gray-100 p-6 rounded-2xl text-left text-xs space-y-4 shadow-sm">
+          <p className="text-gray-600 leading-relaxed">
+            Enviamos todos os detalhes da confirmação e rastreamento para o e-mail: <strong className="text-gray-900">{completedOrder.customer.email}</strong>.
           </p>
-          <div className="border-t border-[#EAE3DE] pt-3 flex justify-between text-[#2A2626]">
+          <div className="border-t border-gray-100 pt-3 flex justify-between text-gray-700">
             <span>Endereço de Entrega:</span>
-            <span className="font-medium text-right">
+            <span className="font-semibold text-right text-gray-900">
               {completedOrder.shippingAddress.street}, {completedOrder.shippingAddress.number}
               <br />
               {completedOrder.shippingAddress.city} - {completedOrder.shippingAddress.state} (CEP {completedOrder.shippingAddress.cep})
             </span>
           </div>
-          <div className="border-t border-[#EAE3DE] pt-3 flex justify-between text-[#2A2626] font-bold text-sm">
+          <div className="border-t border-gray-100 pt-3 flex justify-between text-gray-900 font-bold text-sm">
             <span>Valor Total Pago:</span>
-            <span>R$ {completedOrder.total.toFixed(2).replace('.', ',')}</span>
+            <span className="text-emerald-600 text-base">R$ {completedOrder.total.toFixed(2).replace('.', ',')}</span>
           </div>
         </div>
 
         <button
           onClick={() => onNavigate('home')}
-          className="bg-[#2A2626] text-white text-xs px-8 py-3.5 rounded-xs uppercase tracking-widest hover:bg-[#8A5D65] transition-colors"
+          className="bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold px-8 py-4 rounded-xl uppercase tracking-wider transition-all shadow-md hover:shadow-lg inline-flex items-center gap-2"
         >
-          Continuar Comprando
+          <span>Continuar Comprando</span>
         </button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
       {/* Botão Voltar */}
       <button
         onClick={() => onNavigate('home')}
-        className="text-xs text-[#8A5D65] flex items-center gap-1.5 mb-6 hover:underline"
+        className="text-xs font-semibold text-gray-600 hover:text-pink-600 flex items-center gap-2 mb-6 transition-colors group"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
         <span>Voltar à Loja</span>
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
         {/* Coluna Esquerda: Formulários de Endereço e Pagamento */}
-        <form onSubmit={handleSubmitOrder} className="lg:col-span-7 space-y-8">
+        <form onSubmit={handleSubmitOrder} className="lg:col-span-7 space-y-6">
           {/* 1. Endereço de Entrega */}
-          <div className="bg-[#FAF7F5] border border-[#EAE3DE] p-6 rounded-xs space-y-4">
-            <div className="flex items-center gap-2 border-b border-[#EAE3DE] pb-3">
-              <Truck className="w-4 h-4 text-[#8A5D65]" />
-              <h2 className="text-xs font-semibold uppercase tracking-wider text-[#2A2626]">
-                1. Endereço de Entrega & Identificação
+          <div className="bg-white border border-gray-100 p-6 sm:p-7 rounded-2xl shadow-xs space-y-4">
+            <div className="flex items-center gap-2.5 border-b border-gray-100 pb-4">
+              <div className="w-8 h-8 rounded-full bg-pink-50 text-pink-600 flex items-center justify-center font-bold text-xs">
+                1
+              </div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-900 flex items-center gap-2">
+                <Truck className="w-4 h-4 text-pink-600" />
+                Endereço de Entrega & Identificação
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
               <div className="sm:col-span-2">
-                <label className="block text-[#5C5552] mb-1">Nome Completo *</label>
+                <label className="block text-gray-700 font-semibold mb-1">Nome Completo *</label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Ex: Beatriz Lins"
-                  className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                  className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900"
                 />
               </div>
 
               <div>
-                <label className="block text-[#5C5552] mb-1">E-mail *</label>
+                <label className="block text-gray-700 font-semibold mb-1">E-mail *</label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="seuemail@exemplo.com"
-                  className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                  className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900"
                 />
               </div>
 
               <div>
-                <label className="block text-[#5C5552] mb-1">WhatsApp / Telefone *</label>
+                <label className="block text-gray-700 font-semibold mb-1">WhatsApp / Telefone *</label>
                 <input
                   type="tel"
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="(00) 00000-0000"
-                  className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                  className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900"
                 />
               </div>
 
               <div>
-                <label className="block text-[#5C5552] mb-1">CEP * (Preenchimento Automático)</label>
+                <label className="block text-gray-700 font-semibold mb-1">CEP * (Busca Automática)</label>
                 <input
                   type="text"
                   required
@@ -254,82 +257,82 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
                   onChange={(e) => setCep(e.target.value)}
                   onBlur={handleCepBlur}
                   placeholder="00000-000"
-                  className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                  className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900 font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-[#5C5552] mb-1">CPF (opcional)</label>
+                <label className="block text-gray-700 font-semibold mb-1">CPF (para nota fiscal)</label>
                 <input
                   type="text"
                   value={cpf}
                   onChange={(e) => setCpf(e.target.value)}
                   placeholder="000.000.000-00"
-                  className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                  className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900 font-mono"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-[#5C5552] mb-1">Logradouro / Rua *</label>
+                <label className="block text-gray-700 font-semibold mb-1">Logradouro / Rua *</label>
                 <input
                   type="text"
                   required
                   value={street}
                   onChange={(e) => setStreet(e.target.value)}
                   placeholder="Rua, Avenida..."
-                  className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                  className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900"
                 />
               </div>
 
               <div>
-                <label className="block text-[#5C5552] mb-1">Número *</label>
+                <label className="block text-gray-700 font-semibold mb-1">Número *</label>
                 <input
                   type="text"
                   required
                   value={number}
                   onChange={(e) => setNumber(e.target.value)}
                   placeholder="123"
-                  className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                  className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900"
                 />
               </div>
 
               <div>
-                <label className="block text-[#5C5552] mb-1">Complemento</label>
+                <label className="block text-gray-700 font-semibold mb-1">Complemento</label>
                 <input
                   type="text"
                   value={complement}
                   onChange={(e) => setComplement(e.target.value)}
                   placeholder="Apto 42, Bloco B"
-                  className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                  className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900"
                 />
               </div>
 
               <div>
-                <label className="block text-[#5C5552] mb-1">Bairro *</label>
+                <label className="block text-gray-700 font-semibold mb-1">Bairro *</label>
                 <input
                   type="text"
                   required
                   value={neighborhood}
                   onChange={(e) => setNeighborhood(e.target.value)}
                   placeholder="Bairro"
-                  className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                  className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-[#5C5552] mb-1">Cidade *</label>
+                  <label className="block text-gray-700 font-semibold mb-1">Cidade *</label>
                   <input
                     type="text"
                     required
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder="Cidade"
-                    className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                    className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900"
                   />
                 </div>
                 <div>
-                  <label className="block text-[#5C5552] mb-1">UF *</label>
+                  <label className="block text-gray-700 font-semibold mb-1">UF *</label>
                   <input
                     type="text"
                     required
@@ -337,7 +340,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
                     value={state}
                     onChange={(e) => setState(e.target.value.toUpperCase())}
                     placeholder="SP"
-                    className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                    className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-gray-900 uppercase font-mono"
                   />
                 </div>
               </div>
@@ -345,11 +348,14 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
           </div>
 
           {/* 2. Método de Pagamento */}
-          <div className="bg-[#FAF7F5] border border-[#EAE3DE] p-6 rounded-xs space-y-4">
-            <div className="flex items-center gap-2 border-b border-[#EAE3DE] pb-3">
-              <CreditCard className="w-4 h-4 text-[#8A5D65]" />
-              <h2 className="text-xs font-semibold uppercase tracking-wider text-[#2A2626]">
-                2. Método de Pagamento
+          <div className="bg-white border border-gray-100 p-6 sm:p-7 rounded-2xl shadow-xs space-y-4">
+            <div className="flex items-center gap-2.5 border-b border-gray-100 pb-4">
+              <div className="w-8 h-8 rounded-full bg-pink-50 text-pink-600 flex items-center justify-center font-bold text-xs">
+                2
+              </div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-900 flex items-center gap-2">
+                <CreditCard className="w-4 h-4 text-pink-600" />
+                Forma de Pagamento
               </h2>
             </div>
 
@@ -358,48 +364,51 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
               <button
                 type="button"
                 onClick={() => setPaymentMethod('credit_card')}
-                className={`p-3 rounded-xs border text-xs font-medium flex flex-col items-center gap-1.5 transition-all ${
+                className={`p-3.5 rounded-xl border text-xs font-semibold flex flex-col items-center gap-2 transition-all cursor-pointer ${
                   paymentMethod === 'credit_card'
-                    ? 'border-[#8A5D65] bg-white text-[#8A5D65] shadow-xs'
-                    : 'border-[#D8CECA] bg-[#FAF7F5] text-[#7A706E]'
+                    ? 'border-pink-600 bg-pink-50/50 text-pink-700 ring-2 ring-pink-500/20 shadow-xs'
+                    : 'border-gray-200 bg-gray-50/50 text-gray-600 hover:border-gray-300'
                 }`}
               >
-                <CreditCard className="w-4 h-4" />
+                <CreditCard className="w-5 h-5" />
                 <span>Cartão de Crédito</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setPaymentMethod('pix')}
-                className={`p-3 rounded-xs border text-xs font-medium flex flex-col items-center gap-1.5 transition-all ${
+                className={`p-3.5 rounded-xl border text-xs font-semibold flex flex-col items-center gap-2 transition-all relative cursor-pointer ${
                   paymentMethod === 'pix'
-                    ? 'border-[#8A5D65] bg-white text-[#8A5D65] shadow-xs'
-                    : 'border-[#D8CECA] bg-[#FAF7F5] text-[#7A706E]'
+                    ? 'border-emerald-600 bg-emerald-50/60 text-emerald-800 ring-2 ring-emerald-500/20 shadow-xs'
+                    : 'border-gray-200 bg-gray-50/50 text-gray-600 hover:border-gray-300'
                 }`}
               >
-                <QrCode className="w-4 h-4" />
+                <span className="absolute -top-2.5 right-2 bg-emerald-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full shadow-xs">
+                  -5% OFF
+                </span>
+                <QrCode className="w-5 h-5 text-emerald-600" />
                 <span>PIX Instantâneo</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setPaymentMethod('boleto')}
-                className={`p-3 rounded-xs border text-xs font-medium flex flex-col items-center gap-1.5 transition-all ${
+                className={`p-3.5 rounded-xl border text-xs font-semibold flex flex-col items-center gap-2 transition-all cursor-pointer ${
                   paymentMethod === 'boleto'
-                    ? 'border-[#8A5D65] bg-white text-[#8A5D65] shadow-xs'
-                    : 'border-[#D8CECA] bg-[#FAF7F5] text-[#7A706E]'
+                    ? 'border-pink-600 bg-pink-50/50 text-pink-700 ring-2 ring-pink-500/20 shadow-xs'
+                    : 'border-gray-200 bg-gray-50/50 text-gray-600 hover:border-gray-300'
                 }`}
               >
-                <FileText className="w-4 h-4" />
+                <FileText className="w-5 h-5" />
                 <span>Boleto Bancário</span>
               </button>
             </div>
 
             {/* Formulário Cartão de Crédito */}
             {paymentMethod === 'credit_card' && (
-              <div className="space-y-3 pt-2 text-xs">
+              <div className="space-y-3.5 pt-2 text-xs">
                 <div>
-                  <label className="block text-[#5C5552] mb-1">Número do Cartão *</label>
+                  <label className="block text-gray-700 font-semibold mb-1">Número do Cartão *</label>
                   <input
                     type="text"
                     required
@@ -407,25 +416,25 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
                     value={cardNumber}
                     onChange={(e) => setCardNumber(e.target.value)}
                     placeholder="0000 0000 0000 0000"
-                    className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                    className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all font-mono"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[#5C5552] mb-1">Nome Impresso no Cartão *</label>
+                  <label className="block text-gray-700 font-semibold mb-1">Nome Impresso no Cartão *</label>
                   <input
                     type="text"
                     required
                     value={cardHolder}
                     onChange={(e) => setCardHolder(e.target.value.toUpperCase())}
                     placeholder="COMO NO CARTÃO"
-                    className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                    className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[#5C5552] mb-1">Validade (MM/AA) *</label>
+                    <label className="block text-gray-700 font-semibold mb-1">Validade (MM/AA) *</label>
                     <input
                       type="text"
                       required
@@ -433,11 +442,11 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
                       value={cardExpiry}
                       onChange={(e) => setCardExpiry(e.target.value)}
                       placeholder="12/28"
-                      className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                      className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all font-mono"
                     />
                   </div>
                   <div>
-                    <label className="block text-[#5C5552] mb-1">CVV / Código de Segurança *</label>
+                    <label className="block text-gray-700 font-semibold mb-1">CVV / Segurança *</label>
                     <input
                       type="password"
                       required
@@ -445,17 +454,17 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
                       value={cardCvv}
                       onChange={(e) => setCardCvv(e.target.value)}
                       placeholder="123"
-                      className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                      className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all font-mono"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[#5C5552] mb-1">Número de Parcelas *</label>
+                  <label className="block text-gray-700 font-semibold mb-1">Parcelamento *</label>
                   <select
                     value={installments}
                     onChange={(e) => setInstallments(e.target.value)}
-                    className="w-full bg-white border border-[#D8CECA] p-2.5 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#8A5D65]"
+                    className="w-full bg-gray-50/50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all font-medium text-gray-900"
                   >
                     <option value="1">1x de R$ {total.toFixed(2).replace('.', ',')} sem juros</option>
                     <option value="2">2x de R$ {(total / 2).toFixed(2).replace('.', ',')} sem juros</option>
@@ -470,22 +479,25 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
 
             {/* PIX */}
             {paymentMethod === 'pix' && (
-              <div className="bg-white p-4 rounded-xs border border-[#EAE3DE] text-center space-y-3">
-                <p className="text-xs text-[#5C5552]">
-                  O código PIX Copia e Cola será gerado instantaneamente na finalização para pagamento imediato com aprovação em segundos.
+              <div className="bg-emerald-50/50 p-5 rounded-xl border border-emerald-200/80 text-center space-y-3">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-600 text-white rounded-full text-xs font-bold">
+                  <span>Economia de R$ {(total * 0.05).toFixed(2).replace('.', ',')}</span>
+                </div>
+                <p className="text-xs text-gray-700 leading-relaxed">
+                  O código PIX Copia e Cola será gerado instantaneamente na finalização com aprovação imediata em segundos.
                 </p>
-                <div className="inline-block p-2 bg-[#FAF7F5] border border-dashed border-[#8A5D65] rounded-xs text-[11px] font-mono text-[#8A5D65]">
-                  Chave Pix CNPJ: 52.876.019/0001-90
+                <div className="inline-block p-2.5 bg-white border border-dashed border-emerald-400 rounded-lg text-xs font-mono text-emerald-800 shadow-2xs">
+                  Total no PIX: <strong className="text-sm font-bold text-emerald-700">R$ {(total * 0.95).toFixed(2).replace('.', ',')}</strong>
                 </div>
               </div>
             )}
 
             {/* Boleto */}
             {paymentMethod === 'boleto' && (
-              <div className="bg-white p-4 rounded-xs border border-[#EAE3DE] text-xs text-[#5C5552] space-y-1">
-                <p>O boleto bancário tem prazo de vencimento em até 3 dias úteis.</p>
-                <p className="text-[11px] text-[#7A706E]">
-                  A confirmação pode levar até 24h úteis após o pagamento.
+              <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs text-gray-600 space-y-1">
+                <p className="font-semibold text-gray-800">O boleto bancário tem prazo de vencimento em até 3 dias úteis.</p>
+                <p className="text-[11px] text-gray-500">
+                  A compensação bancária pode levar até 24h a 48h úteis após o pagamento.
                 </p>
               </div>
             )}
@@ -495,7 +507,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#8A5D65] hover:bg-[#724a51] text-white py-4 px-6 rounded-xs text-xs font-bold uppercase tracking-[0.2em] transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full bg-pink-600 hover:bg-pink-700 text-white py-4 px-6 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
           >
             <Lock className="w-4 h-4" />
             <span>{loading ? 'Processando Pedido...' : 'Confirmar e Finalizar Pedido'}</span>
@@ -504,26 +516,27 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
 
         {/* Coluna Direita: Resumo do Pedido */}
         <div className="lg:col-span-5">
-          <div className="bg-[#FAF7F5] border border-[#EAE3DE] p-6 rounded-xs sticky top-28 space-y-5">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-[#2A2626] border-b border-[#EAE3DE] pb-3">
-              Resumo do Pedido ({cart.length})
+          <div className="bg-white border border-gray-100 p-6 rounded-2xl sticky top-28 space-y-5 shadow-xs">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-900 border-b border-gray-100 pb-3 flex items-center justify-between">
+              <span>Resumo do Pedido</span>
+              <span className="text-pink-600 font-semibold">{cart.length} {cart.length === 1 ? 'item' : 'itens'}</span>
             </h2>
 
             {/* Itens */}
-            <div className="divide-y divide-[#EAE3DE] max-h-72 overflow-y-auto space-y-3">
+            <div className="divide-y divide-gray-100 max-h-72 overflow-y-auto space-y-3 pr-1">
               {cart.map((item, idx) => (
                 <div key={idx} className="pt-3 first:pt-0 flex items-center gap-3">
                   <img
                     src={item.product.images[0] || 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200'}
                     alt={item.product.name}
-                    className="w-12 h-16 object-cover rounded-xs bg-[#EAE3DE] shrink-0"
+                    className="w-14 h-18 object-cover rounded-lg bg-gray-100 shrink-0"
                   />
                   <div className="flex-1 text-xs">
-                    <p className="font-medium text-[#2A2626] line-clamp-1">{item.product.name}</p>
-                    <p className="text-[#7A706E] text-[11px]">
-                      Qtd: {item.quantity} • Tam: {item.selectedSize}
+                    <p className="font-semibold text-gray-900 line-clamp-1">{item.product.name}</p>
+                    <p className="text-gray-500 text-[11px] mt-0.5">
+                      Qtd: {item.quantity} • Tam: <strong className="text-gray-700">{item.selectedSize}</strong>
                     </p>
-                    <p className="font-semibold text-[#2A2626] mt-0.5">
+                    <p className="font-bold text-gray-900 mt-1">
                       R$ {(item.product.salePrice * item.quantity).toFixed(2).replace('.', ',')}
                     </p>
                   </div>
@@ -532,36 +545,42 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate }) => {
             </div>
 
             {/* Totais */}
-            <div className="border-t border-[#EAE3DE] pt-4 space-y-2 text-xs text-[#5C5552]">
+            <div className="border-t border-gray-100 pt-4 space-y-2.5 text-xs text-gray-600">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>R$ {subtotal.toFixed(2).replace('.', ',')}</span>
+                <span className="font-medium text-gray-900">R$ {subtotal.toFixed(2).replace('.', ',')}</span>
               </div>
               <div className="flex justify-between">
                 <span>Frete</span>
                 <span>
                   {shippingFee === 0 ? (
-                    <strong className="text-emerald-700 uppercase">Grátis</strong>
+                    <strong className="text-emerald-600 font-bold uppercase">Grátis</strong>
                   ) : (
-                    `R$ ${shippingFee.toFixed(2).replace('.', ',')}`
+                    <span className="font-medium text-gray-900">R$ {shippingFee.toFixed(2).replace('.', ',')}</span>
                   )}
                 </span>
               </div>
               {discount > 0 && (
-                <div className="flex justify-between text-emerald-700">
-                  <span>Desconto Aplicado</span>
+                <div className="flex justify-between text-emerald-600 font-medium">
+                  <span>Cupom Aplicado</span>
                   <span>- R$ {discount.toFixed(2).replace('.', ',')}</span>
                 </div>
               )}
-              <div className="flex justify-between pt-3 border-t border-[#EAE3DE] text-base font-bold text-[#2A2626]">
+              <div className="flex justify-between pt-3 border-t border-gray-100 text-base font-bold text-gray-900">
                 <span>Total</span>
                 <span>R$ {total.toFixed(2).replace('.', ',')}</span>
+              </div>
+              <div className="p-2.5 bg-emerald-50 rounded-lg flex items-center justify-between text-[11px] text-emerald-800">
+                <span className="font-medium">No PIX com 5% de desconto:</span>
+                <strong className="text-xs font-bold text-emerald-700">
+                  R$ {(total * 0.95).toFixed(2).replace('.', ',')}
+                </strong>
               </div>
             </div>
 
             {/* Selo de Segurança */}
-            <div className="pt-3 border-t border-[#EAE3DE] flex items-center justify-center gap-2 text-[11px] text-[#7A706E]">
-              <ShieldCheck className="w-4 h-4 text-emerald-700" />
+            <div className="pt-3 border-t border-gray-100 flex items-center justify-center gap-2 text-[11px] text-gray-500">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
               <span>Ambiente 100% Criptografado & Seguro</span>
             </div>
           </div>
