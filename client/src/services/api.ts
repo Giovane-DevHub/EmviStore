@@ -1,4 +1,5 @@
-const API_BASE = '/api';
+const envUrl = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+const API_BASE = envUrl ? (envUrl.endsWith('/api') ? envUrl : `${envUrl}/api`) : '/api';
 
 export function getAuthToken(): string | null {
   return localStorage.getItem('emvi_token');
