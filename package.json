@@ -1,0 +1,30 @@
+{
+  "name": "emvistore",
+  "version": "1.0.0",
+  "description": "Plataforma de E-commerce Emvi Store - Moda Feminina Sofisticada",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "start": "cd server && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Giovane-DevHub/EmviStore.git"
+  },
+  "keywords": [
+    "ecommerce",
+    "fashion",
+    "typescript",
+    "mongodb",
+    "react"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

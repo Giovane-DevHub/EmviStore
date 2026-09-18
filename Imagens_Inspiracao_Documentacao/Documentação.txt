@@ -1,0 +1,154 @@
+================================================================================
+                    DOCUMENTAÇÃO DA PLATAFORMA EMVI STORE
+================================================================================
+Este documento foi criado para que qualquer pessoa consiga entender como a loja
+funciona, quais são as telas disponíveis, como usar o painel e quais plugins e
+versões estão instalados.
+
+--------------------------------------------------------------------------------
+1. INFORMAÇÕES BÁSICAS DO SISTEMA
+--------------------------------------------------------------------------------
+- Banco de dados: MongoDB (com Mongoose v8.9.5)
+- Linguagem de programação: TypeScript (v5.7 / v6.0)
+- Backend (Servidor): Node.js + Express (v4.21.2)
+- Frontend (Loja e Painel): React 19 + Vite (v8.3.0)
+- Estilização Visual: TailwindCSS (v4) com design de alta costura feminina
+
+--------------------------------------------------------------------------------
+2. CONTATOS E IDENTIDADE PADRÃO DA LOJA
+--------------------------------------------------------------------------------
+- Nome da Loja: Emvi Store
+- Slogan: Sinta a leveza da sofisticação feminina
+- WhatsApp / Telefone: 51 9399-7784
+- Instagram Oficial: https://www.instagram.com/emvistore_?stkn=YjR6ZmJma2JsenV2
+- Regra de Frete Grátis: Automático para compras a partir de R$ 299,00
+
+--------------------------------------------------------------------------------
+3. ACESSO DO FUNCIONÁRIO / ADMINISTRADOR
+--------------------------------------------------------------------------------
+Para entrar no painel de administração da loja:
+1. No canto superior direito da loja, clique no botão "PAINEL" ou acesse a rota.
+2. Credenciais Iniciais de Fábrica:
+   - Login (Usuário): 1
+   - Senha: 1
+3. Segurança:
+   - Este usuário "1" é o Administrador Master da loja.
+   - Ele é protegido pelo sistema e NÃO pode ser excluído por engano.
+   - Porém, você pode alterar o login e a senha dele quando quiser através da 
+     tela de "Configurações" -> aba "Acesso do Administrador".
+
+--------------------------------------------------------------------------------
+4. TELAS DA LOJA (PARA O CLIENTE)
+--------------------------------------------------------------------------------
+1. Página Inicial (Home):
+   - Banner superior com aviso de Frete Grátis e parcelamento em 6x sem juros.
+   - Logotipo da loja (imagem ou texto com design luxuoso).
+   - Banner principal da coleção com botão "Ver Lançamentos".
+   - Grade circular "Compre por Categoria" (Vestidos, Blusas, Saias, etc.).
+   - Seção "Mais Vendidos do Mês" com fotos e preços.
+   - Newsletter para receber cupom de primeira compra (BEMVINDA10).
+   - Rodapé com dados de contato, WhatsApp 51 9399-7784, Instagram e formas de pagamento.
+
+2. Catálogo de Roupas & Filtros:
+   - Filtro lateral por Categorias.
+   - Filtro por Tamanho (P, M, G, GG).
+   - Filtro por Cores (com amostras visuais).
+   - Filtro de Preço Máximo.
+   - Ordenação por Mais Vendidos, Menor Preço e Maior Preço.
+
+3. Detalhes da Roupa (Página do Produto):
+   - Fotos da peça em ângulos diferentes com zoom.
+   - Preço à vista e cálculo de parcelamento em até 6x sem juros.
+   - Seleção de cor e tamanho.
+   - Simulador de Frete por CEP (com preenchimento de endereço e prazos).
+   - Avaliações reais de clientes com estrelas.
+   - Vitrine de recomendações "Quem viu, comprou também".
+
+4. Sacola de Compras (Gaveta Lateral):
+   - Lista das roupas escolhidas com foto, tamanho, cor e quantidade.
+   - Barra que mostra quanto falta para ganhar Frete Grátis.
+   - Campo para aplicar cupom de desconto (ex: EMVI10 ou BEMVINDA10).
+   - Botão para ir direto ao Checkout.
+
+5. Finalização de Compra (Checkout):
+   - Passo 1: Digitar o CEP (o endereço é preenchido sozinho) e dados do cliente.
+   - Passo 2: Escolha do pagamento:
+     * Cartão de Crédito: com número, validade, CVV e parcelas em até 6x.
+     * PIX: Chave e código instantâneo com aprovação imediata.
+     * Boleto Bancário.
+   - Passo 3: Confirmação do pedido com tela de sucesso e número do pedido.
+
+--------------------------------------------------------------------------------
+5. TELAS DO PAINEL DE GESTÃO (EMVI ADMIN)
+--------------------------------------------------------------------------------
+1. Dashboard Principal:
+   - 4 cartões com números da loja: Vendas Hoje, Faturamento Mensal, Ticket Médio e Novos Clientes.
+   - Gráfico financeiro dos últimos 6 meses (Receita x Custos x Lucro).
+   - Gráfico de pizza/barras de vendas por categoria de roupa.
+   - Fila rápida com os últimos pedidos recebidos.
+
+2. Gestão de Produtos & Categorias:
+   - Aba "Produtos Cadastrados": lista todas as roupas cadastradas com foto, SKU, estoque e status. Permite criar e editar peças com fotos, cores, tamanhos e preços.
+   - Aba "Categorias da Loja": lista todas as categorias com controle total de visibilidade no site.
+   - COMO INATIVAR OU ATIVAR UMA CATEGORIA (Sem precisar excluir):
+     * Acesse o Painel Admin -> Produtos -> aba "Categorias da Loja".
+     * Na coluna "Status no Site", cada categoria tem um botão verde "Ativa (Visível)".
+     * Basta clicar no botão para alternar para "Inativa (Oculta)".
+     * Ao inativar (por exemplo, "Acessórios"), ela some instantaneamente do menu superior e da tela inicial da loja.
+     * Quando os produtos voltarem ao estoque, basta clicar no mesmo botão para reativar, e a categoria reaparece na hora no site com todos os seus itens!
+   - Se quiser apagar permanentemente a categoria, basta clicar no ícone de lixeira.
+
+3. Gestão de Pedidos:
+   - Acompanhamento dos pedidos feitos na loja.
+   - Status dos pedidos: Pendente -> Preparando Envio -> Enviado -> Entregue.
+   - Visualização do endereço da cliente para envio.
+   - Botão para imprimir comprovante do pedido.
+
+4. Gestão de Clientes:
+   - Lista das clientes cadastradas que compraram na loja.
+   - Exibe o valor total que cada cliente já comprou e data da última compra.
+
+5. Relatórios & Metas:
+   - Resumo do lucro líquido e margem comercial da loja.
+   - Barra de progresso da Meta Semestral de Vendas.
+   - Ranking das roupas mais vendidas.
+   - Botão "Exportar Relatório PDF": gera e baixa no seu computador um relatório 
+     oficial em PDF formatado com o logotipo e resumo de vendas da loja.
+
+6. Configurações da Loja:
+   - Identidade da Loja: Troque o nome da loja, altere o logotipo, troque o WhatsApp, Instagram e endereço físico.
+   - Gateway de Pagamento: Campos para colocar as chaves da sua conta de recebimento (Mercado Pago, Stripe ou Asaas) para receber o dinheiro do cartão e PIX.
+   - Regras de Frete: Defina o valor para dar frete grátis e a taxa padrão.
+   - Acesso do Administrador: Troque o login (usuário) e senha do funcionário/administrador.
+
+--------------------------------------------------------------------------------
+6. PLUGINS E BIBLIOTECAS INSTALADAS (COM VERSÕES)
+--------------------------------------------------------------------------------
+[Backend - Servidor]
+- express (^4.21.2): Cria o servidor web e as rotas da loja.
+- mongoose (^8.9.5): Conecta e salva as informações no banco de dados MongoDB.
+- jsonwebtoken (^9.0.2): Gera tokens seguros para o funcionário ficar logado.
+- bcryptjs (^3.0.3): Criptografa as senhas dos funcionários no banco de dados.
+- pdfkit (^0.16.0): Plugin responsável por gerar o arquivo PDF dos relatórios com o logotipo.
+- dotenv (^16.4.7): Gerencia senhas e portas de configuração do servidor.
+- cors (^2.8.5): Permite que a loja do cliente converse de forma segura com o servidor.
+- mongodb-memory-server (^10.1.3): Banco de dados MongoDB automático em memória para testes e desenvolvimento imediato sem precisar instalar nada no computador.
+- tsx (^4.19.2): Executa o código TypeScript no servidor em tempo real com hot-reload.
+
+[Frontend - Loja do Cliente e Painel]
+- react (^19.2.8) e react-dom (^19.2.8): Biblioteca para criação das telas interativas.
+- vite (^8.3.0): Ferramenta ultrarrápida de inicialização e compilação do site.
+- tailwindcss (^4.0.0) e @tailwindcss/vite: Motor de design e estilos visuais elegantes.
+- lucide-react (^1.16.0): Ícones modernos de sacola, caminhão de entrega, cartões e métricas.
+- jspdf (^4.2.1) e jspdf-autotable (^5.0.7): Bibliotecas auxiliares para geração de documentos e tabelas em PDF no navegador.
+- concurrently (^9.1.2): Permite ligar o servidor e o site da loja ao mesmo tempo com um único comando.
+
+--------------------------------------------------------------------------------
+7. COMO RODAR O PROJETO NO COMPUTADOR
+--------------------------------------------------------------------------------
+1. Abra a pasta do projeto no terminal.
+2. Execute o comando:
+   npm run dev
+3. Acesse no navegador:
+   - Loja do Cliente: http://localhost:5173
+   - Servidor Backend: http://localhost:5000
