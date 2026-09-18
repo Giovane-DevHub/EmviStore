@@ -25,6 +25,30 @@ app.use(cors());
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ limit: '25mb', extended: true }));
 
+// Inicializador único para o MongoDB Atlas (Serverless & Local)
+let isInitialized = false;
+
+export async function ensureDBInitialized() {
+  if (!isInitialized) {
+    await connectDB();
+    await seedInitialAdmin();
+    await getOrCreateSettings();
+    await seedInitialData();
+    isInitialized = true;
+  }
+}
+
+// Middleware para garantir banco conectado e dados iniciais prontos
+app.use(async (_req, _res, next) => {
+  try {
+    await ensureDBInitialized();
+    next();
+  } catch (err) {
+    console.error('[MongoDB Atlas Initialization Error]', err);
+    next(err);
+  }
+});
+
 // Rotas de API
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
@@ -37,18 +61,21 @@ app.use('/api/shipping', shippingRoutes);
 
 // Health check
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', store: 'Emvi Store Backend', timestamp: new Date() });
+  res.json({ status: 'ok', store: 'Emvi Store Backend (MongoDB Atlas)', timestamp: new Date() });
 });
 
-async function startServer() {
-  await connectDB();
-  await seedInitialAdmin();
-  await getOrCreateSettings();
-  await seedInitialData();
+export { app };
+export default app;
 
-  app.listen(PORT, () => {
-    console.log(`[Emvi Store] Servidor rodando na porta http://localhost:${PORT}`);
-  });
+// Inicia servidor HTTP apenas se não estiver rodando como Serverless Function da Vercel
+if (!process.env.VERCEL) {
+  ensureDBInitialized()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`[Emvi Store] Servidor rodando na porta http://localhost:${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.error('[Emvi Store] Falha crítica ao iniciar servidor:', err);
+    });
 }
-
-startServer();
